@@ -6,7 +6,7 @@
 // pastikan menggunakan Ethers v6.
 
 const MAINNET_CHAIN_ID = 56; // 56 untuk BSC Mainnet (atau 1 untuk Ethereum)
-const CONTRACT_ADDRESS = "0x... (MASUKKAN ALAMAT KONTRAK MAINNET ANDA DI SINI)";
+const CONTRACT_ADDRESS = "0xAEb22359588A50e6F746004E66418Eb2c978dAA2";
 
 // ABI Minimum yang diperlukan untuk membaca dan mengeksekusi pembelian di Smart Contract
 const CONTRACT_ABI = [
