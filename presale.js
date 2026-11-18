@@ -1,46 +1,95 @@
-// presale.js - Skrip Universal Web3 untuk VOIN Technology
-document.addEventListener("DOMContentLoaded", () => {
-    const btnConnect = document.getElementById("btnConnectWallet");
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080e1b">
+  <title>VOIN Technology Payments | Beranda Utama</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="shell header-inner">
+      <a class="brand" href="index.html">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <b>VOIN</b><small>TECHNOLOGY<br>PAYMENTS</small>
+      </a>
+      <nav class="nav" aria-label="Navigation principale">
+        <a href="index.html" aria-current="page">Beranda</a>
+        <a href="index.html#jaringan">Jaringan</a>
+        <a href="presale.html">Presale</a>
+        <a href="dashboard.html">Akun</a>
+        <a href="whitepaper.html">Whitepaper</a>
+      </nav>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <!-- Tombol Connect Wallet dengan fungsi langsung -->
+        <button id="btnConnectWallet" class="button secondary" type="button" style="padding: 0.5rem 1rem; font-size: 0.9rem;" onclick="connectWallet()">Connect Wallet</button>
+        <details class="mobile">
+          <summary>Menu</summary>
+          <nav>
+            <a href="index.html">Beranda</a>
+            <a href="index.html#jaringan">Jaringan</a>
+            <a href="presale.html">Presale</a>
+            <a href="dashboard.html">Akun</a>
+            <a href="whitepaper.html">Whitepaper</a>
+          </nav>
+        </details>
+      </div>
+    </div>
+  </header>
 
-    if (btnConnect) {
-        btnConnect.addEventListener("click", async () => {
-            try {
-                // Cek apakah ada provider injection (MetaMask, Trust Wallet extension/dApp browser)
-                if (typeof window.ethereum !== 'undefined') {
-                    btnConnect.innerText = "Menghubungkan...";
+  <main class="shell page">
+    <div class="page-title">
+      <p class="eyebrow">LAYER-1 BLOCKCHAIN ECOSYSTEM</p>
+      <h1>Infrastruktur Masa Depan VOIN</h1>
+      <p style="margin-top:14px">Ekosistem terhubung yang menggabungkan keamanan kriptografi, performa Layer-1, dan konektivitas pembayaran global di jaringan utama (Mainnet).</p>
+    </div>
 
-                    // Meminta izin akun langsung ke provider yang tersedia di browser
-                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                    const userAddress = accounts[0];
+    <section class="section" id="jaringan">
+      <div class="card">
+        <h2>Tentang Jaringan Utama (Mainnet)</h2>
+        <p>VOIN berjalan di atas arsitektur blockchain mandiri dengan total suplai tetap sebanyak 260.000.000 VOIN. Bergabunglah dalam tahap presale resmi untuk mengamankan alokasi token awal Anda langsung melalui Smart Contract.</p>
+        <a class="button" href="presale.html" style="display: inline-block; margin-top: 1rem; text-decoration: none;">Menuju Halaman Presale &rarr;</a>
+      </div>
+    </section>
+  </main>
 
-                    // Cek Chain ID (BNB Smart Chain Mainnet = 56 atau 0x38)
-                    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-                    if (chainId !== "0x38" && chainId !== 56) {
-                        try {
-                            // Coba minta pindah jaringan otomatis ke BSC
-                            await window.ethereum.request({
-                                method: 'wallet_switchEthereumChain',
-                                params: [{ chainId: '0x38' }],
-                            });
-                        } catch (switchError) {
-                            alert("Harap ubah jaringan dompet Anda secara manual ke BNB Smart Chain (Chain ID: 56).");
-                        }
-                    }
+  <footer class="footer">
+    <div class="shell">
+      <p>Jangan bagikan seed phrase atau private key Anda kepada siapa pun.</p>
+      <p>© 2026 VOIN Technology Payments. Seluruh hak dilindungi.</p>
+      <p><a href="whitepaper.html">Whitepaper</a> · Jaringan Mainnet Aktif</p>
+    </div>
+  </footer>
 
-                    // Tampilkan alamat yang terhubung di tombol
-                    const shortAddr = userAddress.substring(0, 6) + "..." + userAddress.substring(userAddress.length - 4);
-                    btnConnect.innerText = shortAddr;
-                    btnConnect.style.backgroundColor = "#047857";
-                    console.log("Berhasil terhubung:", userAddress);
+  <!-- Skrip JavaScript langsung di dalam HTML agar langsung aktif tanpa file tambahan -->
+  <script>
+    async function connectWallet() {
+        const btnConnect = document.getElementById("btnConnectWallet");
+        try {
+            if (typeof window.ethereum !== 'undefined') {
+                btnConnect.innerText = "Menghubungkan...";
+                
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const userAddress = accounts[0];
 
-                } else {
-                    // Jika dibuka di Chrome biasa tanpa ekstensi, berikan opsi pengalihan atau informasi yang jelas
-                    alert("Tidak ada ekstensi dompet terdeteksi di browser ini. Jika Anda menggunakan HP, silakan buka melalui dApp browser di dalam aplikasi MetaMask/TrustWallet, atau gunakan komputer dengan ekstensi dompet aktif.");
-                }
-            } catch (error) {
-                console.error("Koneksi ditolak:", error);
+                const shortAddr = userAddress.substring(0, 6) + "..." + userAddress.substring(userAddress.length - 4);
+                btnConnect.innerText = shortAddr;
+                btnConnect.style.backgroundColor = "#047857";
+                
+                alert("Berhasil terhubung ke dompet: " + userAddress);
+            } else {
+                alert("Dompet kripto tidak terdeteksi! Pastikan Anda membukanya melalui dApp browser di dalam aplikasi MetaMask/Trust Wallet.");
                 btnConnect.innerText = "Connect Wallet";
             }
-        });
+        } catch (error) {
+            console.error("Koneksi gagal:", error);
+            alert("Koneksi dibatalkan oleh pengguna.");
+            btnConnect.innerText = "Connect Wallet";
+        }
     }
-});
+  </script>
+</body>
+</html>
