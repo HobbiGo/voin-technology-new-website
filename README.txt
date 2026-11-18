@@ -1,18 +1,39 @@
-VOIN — paket website tiga halaman + whitepaper
+================================================================================
+VOIN PROTOCOL — LAYER-1 BLOCKCHAIN & ECOSYSTEM REPOSITORY
+================================================================================
 
-Unggah SEMUA file di dalam folder ini ke folder utama repository:
-index.html, presale.html, dashboard.html, whitepaper.html, style.css, presale.js, source-whitepaper.txt.
-File tidak perlu masuk subfolder. Tautan relatif mendukung GitHub Pages pada /voin-technology-payments/.
+PETUNJUK PENEMPATAN FILE (DEPLOYMENT ROOT):
+Unggah SEMUA file berikut secara langsung ke folder utama (root) repository GitHub 
+tanpa memasukkannya ke dalam subfolder:
+- index.html
+- presale.html
+- dashboard.html
+- whitepaper.html
+- style.css
+- presale.js
+- source-whitepaper.txt
+- README.txt
 
-index.html: beranda penuh, bukan sidebar presale.
-presale.html: batch 1–10, harga yang ditentukan, bonus, simulasi USD.
-dashboard.html: tampilan akun terpisah, belum terhubung wallet/backend.
-whitepaper.html: ringkasan Indonesia, naskah Inggris asli dan tambahan terbaru.
+STRUKTUR PAKET WEBSITE & DOKUMENTASI:
+1. index.html      : Halaman beranda utama ekosistem VOIN (Full Homepage dengan SVG inline).
+2. presale.html    : Halaman alokasi token, tabel batch, dan kalkulator nilai.
+3. dashboard.html  : Halaman dasbor akun pengguna terpisah.
+4. whitepaper.html : Dokumentasi resmi, ringkasan bahasa Indonesia, dan naskah referensi.
+5. style.css       : Berkas gaya visual terpusat yang responsif untuk desktop dan seluler.
+6. presale.js      : Skrip logika antarmuka dan perhitungan kalkulator lokal.
+7. source-whitepaper.txt : Catatan parameter teknis dan rujukan data tokenomik.
 
-Tidak memakai voin-visual.png dari versi sebelumnya; aset logo berupa SVG inline sehingga tidak ada gambar wajib yang terpisah. Ilustrasi implementasi disederhanakan dari mockup, bukan hasil browser yang dijamin identik.
-Tidak ada dependensi CDN atau permintaan API. Simulasi berjalan lokal, tidak menyimpan data dan tidak mengirim transaksi.
+PARAMETER UTAMA TOKENOMIK (FIXED CAP):
+- Nama Token         : VOIN ($VOIN)
+- Suplai Maksimal    : 260.000.000 VOIN
+- Alokasi Presale    : 50% (130.000.000 VOIN)
+- Target Jaringan    : Layer-1 Blockchain Mandiri
 
-BELUM FINAL: harga Batch 3–9, jadwal setiap batch, kapasitas Batch 2–10, bonus kumulatif/per order, rentang nominal lain, penegasan kapasitas dasar/gabungan Batch 1, pembagian bonus antarbatch, distribusi native. Semuanya ditandai, bukan ditebak.
+CATATAN PENGEMBANGAN:
+Repositori ini dirancang sebagai fondasi antarmuka dan dokumentasi resmi untuk 
+pengembangan jaringan utama (Mainnet) VOIN. Pastikan untuk melakukan pemeriksaan 
+tampilan (testing) secara berkala pada perangkat desktop maupun seluler setelah 
+melakukan pembaruan atau publikasi melalui GitHub Pages.
 
-Pembayaran/wallet sengaja nonaktif. Jangan membuka penjualan dengan paket pratinjau ini.
-Lakukan pemeriksaan browser desktop dan ponsel setelah pemasangan.
+© 2026 VOIN Project. All rights reserved.
+================================================================================
