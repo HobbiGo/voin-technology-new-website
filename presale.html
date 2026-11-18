@@ -3,12 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VOIN Token Presale</title>
+    <title>VOIN Presale - BNB Smart Chain</title>
     <style>
+        :root {
+            --primary-color: #10b981;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+        }
         body {
-            font-family: Arial, sans-serif;
-            background-color: #0f172a;
-            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             margin: 0;
             padding: 20px;
             display: flex;
@@ -17,56 +24,60 @@
             min-height: 100vh;
         }
         .container {
-            background-color: #1e293b;
+            width: 100%;
+            max-width: 500px;
+            background: var(--card-bg);
             padding: 30px;
             border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-            width: 100%;
-            max-width: 450px;
-            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            box-sizing: border-box;
         }
         h1 {
-            color: #F3BA2F;
-            margin-bottom: 10px;
+            margin-top: 0;
+            color: var(--primary-color);
             font-size: 24px;
+            text-align: center;
+        }
+        p {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 24px;
         }
         .info-box {
-            background: #334155;
-            padding: 15px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid #334155;
+            padding: 16px;
             border-radius: 10px;
-            margin: 20px 0;
-            text-align: left;
-            font-size: 14px;
+            margin-bottom: 20px;
         }
         .info-box p {
+            text-align: left;
             margin: 8px 0;
+            color: var(--text-color);
         }
-        /* Tombol Connect Wallet Responsif & Besar */
         .wallet-wrapper {
-            width: 100%;
-            margin-top: 20px;
+            text-align: center;
         }
         #connectBtn {
-            width: 100%;
-            padding: 14px 20px;
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
             font-size: 16px;
             font-weight: bold;
-            color: #000000;
-            background-color: #F3BA2F;
-            border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            transition: background 0.3s;
+            width: 100%;
+            transition: background 0.2s;
         }
         #connectBtn:hover {
-            background-color: #e2ab25;
+            background-color: #059669;
         }
         #status {
-            margin-top: 12px;
+            margin-top: 15px;
             font-size: 13px;
-            color: #94a3b8;
-            line-height: 1.4;
+            color: var(--text-muted);
         }
     </style>
 </head>
@@ -82,58 +93,41 @@
             <p><strong>Status Dompet:</strong> <span id="walletAddress">Belum Terhubung</span></p>
         </div>
 
-        <!-- Tombol dan Status Koneksi -->
         <div class="wallet-wrapper">
             <button id="connectBtn" onclick="connectWallet()">Connect Wallet</button>
             <div id="status">Status: Silakan hubungkan dompet MetaMask Anda</div>
         </div>
     </div>
 
-    <!-- Script Koneksi Wallet -->
     <script>
         async function connectWallet() {
             const statusDiv = document.getElementById("status");
             const addressSpan = document.getElementById("walletAddress");
+            const connectBtn = document.getElementById("connectBtn");
 
-            // Cek apakah MetaMask terinstal atau dibuka di browser MetaMask
+            // Cek apakah MetaMask / Web3 Provider terinstal
             if (typeof window.ethereum !== 'undefined') {
                 try {
                     statusDiv.innerText = "Status: Menghubungkan ke MetaMask...";
                     
-                    // Minta izin akun
+                    // Minta izin akses akun
                     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                    const account = accounts[0];
-
-                    // Cek Chain ID (harus 56 / 0x38 untuk BSC)
-                    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-                    if (chainId !== '0x38') {
-                        try {
-                            // Coba pindah jaringan otomatis ke BSC
-                            await window.ethereum.request({
-                                method: 'wallet_switchEthereumChain',
-                                params: [{ chainId: '0x38' }],
-                            });
-                        } catch (switchError) {
-                            statusDiv.innerText = "Status: Harap pindah manual ke jaringan BNB Smart Chain di MetaMask.";
-                            return;
-                        }
+                    
+                    if (accounts.length > 0) {
+                        const userAddress = accounts[0];
+                        statusDiv.innerText = "Status: Berhasil Terhubung";
+                        // Tampilkan alamat dompet yang dipotong agar rapi (misal: 0x1234...5678)
+                        addressSpan.innerText = userAddress.substring(0, 6) + "..." + userAddress.substring(userAddress.length - 4);
+                        connectBtn.innerText = "Connected";
+                        connectBtn.style.backgroundColor = "#047857";
                     }
-
-                    // Tampilkan alamat dompet yang terhubung (disingkat)
-                    const shortenedAddress = account.substring(0, 6) + "..." + account.substring(account.length - 4);
-                    addressSpan.innerText = shortenedAddress;
-                    statusDiv.innerText = "Status: Berhasil terhubung ke MetaMask!";
-                    document.getElementById("connectBtn").innerText = "Connected";
-
                 } catch (error) {
                     console.error(error);
-                    statusDiv.innerText = "Status: Koneksi dibatalkan oleh pengguna.";
+                    statusDiv.innerText = "Status: Koneksi ditolak oleh pengguna.";
                 }
             } else {
-                // Fitur Deep Link jika dibuka di Chrome/Browser biasa
-                statusDiv.innerText = "Status: Membuka aplikasi MetaMask...";
-                const dappUrl = window.location.href.replace(/^https?:\/\//, '');
-                window.location.href = `https://metamask.app.link/dapp/${dappUrl}`;
+                statusDiv.innerText = "Status: MetaMask tidak ditemukan!";
+                alert("MetaMask tidak terdeteksi. Jika Anda menggunakan ponsel, silakan buka halaman ini melalui browser di dalam aplikasi MetaMask.");
             }
         }
     </script>
