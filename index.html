@@ -6,8 +6,6 @@
   <meta name="theme-color" content="#080e1b">
   <title>VOIN Technology Payments | Beranda Utama</title>
   <link rel="stylesheet" href="style.css">
-  <!-- Pustaka Ethers.js untuk integrasi Web3 Mainnet -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.0/ethers.umd.min.js"></script>
 </head>
 <body>
   <header class="header">
@@ -26,6 +24,7 @@
         <a href="whitepaper.html">Whitepaper</a>
       </nav>
       <div style="display: flex; align-items: center; gap: 10px;">
+        <!-- Tombol universal untuk memicu modal pilihan dompet -->
         <button id="btnConnectWallet" class="button secondary" type="button" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Connect Wallet</button>
         <details class="mobile">
           <summary>Menu</summary>
@@ -65,6 +64,7 @@
     </div>
   </footer>
 
+  <!-- Memanggil file presale.js terpusat -->
   <script src="presale.js" defer></script>
 </body>
 </html>
