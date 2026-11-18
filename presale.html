@@ -95,39 +95,46 @@
 
         <div class="wallet-wrapper">
             <button id="connectBtn" onclick="connectWallet()">Connect Wallet</button>
-            <div id="status">Status: Silakan hubungkan dompet MetaMask Anda</div>
+            <div id="status">Status: Silakan hubungkan dompet Anda</div>
         </div>
     </div>
 
+    <!-- Pustaka Ethers.js untuk menangani koneksi provider Web3 secara universal -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
     <script>
         async function connectWallet() {
             const statusDiv = document.getElementById("status");
             const addressSpan = document.getElementById("walletAddress");
             const connectBtn = document.getElementById("connectBtn");
 
-            // Cek apakah MetaMask / Web3 Provider terinstal
+            // Mengecek provider injeksi Web3 universal (MetaMask, Trust Wallet, dApp Browser, dll)
             if (typeof window.ethereum !== 'undefined') {
                 try {
-                    statusDiv.innerText = "Status: Menghubungkan ke MetaMask...";
+                    statusDiv.innerText = "Status: Menghubungkan ke dompet...";
                     
-                    // Minta izin akses akun
-                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                    
-                    if (accounts.length > 0) {
-                        const userAddress = accounts[0];
-                        statusDiv.innerText = "Status: Berhasil Terhubung";
-                        // Tampilkan alamat dompet yang dipotong agar rapi (misal: 0x1234...5678)
-                        addressSpan.innerText = userAddress.substring(0, 6) + "..." + userAddress.substring(userAddress.length - 4);
-                        connectBtn.innerText = "Connected";
-                        connectBtn.style.backgroundColor = "#047857";
+                    const provider = new ethers.providers.Web3Provider(window.ethereum);
+                    await provider.send("eth_requestAccounts", []);
+                    const signer = provider.getSigner();
+                    const userAddress = await signer.getAddress();
+
+                    // Periksa apakah berada di BNB Smart Chain (Chain ID: 56)
+                    const network = await provider.getNetwork();
+                    if (network.chainId !== 56) {
+                        alert("Peringatan: Jaringan Anda bukan BNB Smart Chain (Chain ID: 56). Harap ubah jaringan di dompet Anda.");
                     }
+
+                    statusDiv.innerText = "Status: Berhasil Terhubung";
+                    addressSpan.innerText = userAddress.substring(0, 6) + "..." + userAddress.substring(userAddress.length - 4);
+                    connectBtn.innerText = "Connected";
+                    connectBtn.style.backgroundColor = "#047857";
+
                 } catch (error) {
                     console.error(error);
-                    statusDiv.innerText = "Status: Koneksi ditolak oleh pengguna.";
+                    statusDiv.innerText = "Status: Koneksi dibatalkan oleh pengguna.";
                 }
             } else {
-                statusDiv.innerText = "Status: MetaMask tidak ditemukan!";
-                alert("MetaMask tidak terdeteksi. Jika Anda menggunakan ponsel, silakan buka halaman ini melalui browser di dalam aplikasi MetaMask.");
+                statusDiv.innerText = "Status: Tidak ada dompet terdeteksi.";
+                alert("Dompet kripto tidak terdeteksi! Pastikan Anda membukanya melalui browser di dalam aplikasi dompet (seperti MetaMask atau Trust Wallet).");
             }
         }
     </script>
