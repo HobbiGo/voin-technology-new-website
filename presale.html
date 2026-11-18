@@ -1,118 +1,141 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#080e1b">
-  <title>Presale Real | VOIN Technology Payments</title>
-  <link rel="stylesheet" href="style.css">
-  <!-- Pustaka Ethers.js untuk eksekusi transaksi on-chain -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.0/ethers.umd.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOIN Token Presale</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0f172a;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #1e293b;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+        h1 {
+            color: #F3BA2F;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+        .info-box {
+            background: #334155;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+            font-size: 14px;
+        }
+        .info-box p {
+            margin: 8px 0;
+        }
+        /* Tombol Connect Wallet Responsif & Besar */
+        .wallet-wrapper {
+            width: 100%;
+            margin-top: 20px;
+        }
+        #connectBtn {
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #000000;
+            background-color: #F3BA2F;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: background 0.3s;
+        }
+        #connectBtn:hover {
+            background-color: #e2ab25;
+        }
+        #status {
+            margin-top: 12px;
+            font-size: 13px;
+            color: #94a3b8;
+            line-height: 1.4;
+        }
+    </style>
 </head>
 <body>
-  <header class="header">
-    <div class="shell header-inner">
-      <a class="brand" href="index.html">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-        </svg>
-        <b>VOIN</b><small>TECHNOLOGY<br>PAYMENTS</small>
-      </a>
-      <nav class="nav" aria-label="Navigation principale">
-        <a href="index.html">Beranda</a>
-        <a href="index.html#jaringan">Jaringan</a>
-        <a href="presale.html" aria-current="page">Presale</a>
-        <a href="dashboard.html">Akun</a>
-        <a href="whitepaper.html">Whitepaper</a>
-      </nav>
-      <div style="display: flex; align-items: center; gap: 10px;">
-        <button id="btnConnectWallet" class="button secondary" type="button" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Connect Wallet</button>
-        <details class="mobile">
-          <summary>Menu</summary>
-          <nav>
-            <a href="index.html">Beranda</a>
-            <a href="index.html#jaringan">Jaringan</a>
-            <a href="presale.html">Presale</a>
-            <a href="dashboard.html">Akun</a>
-            <a href="whitepaper.html">Whitepaper</a>
-          </nav>
-        </details>
-      </div>
-    </div>
-  </header>
 
-  <main class="shell page compact">
-    <div class="page-title">
-      <p class="eyebrow">PRESALE MAINNET · DANA ASLI</p>
-      <h1>Penjualan Token Resmi VOIN</h1>
-      <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #10b981; border-color: #10b981;">Sesi Pembelian Aktif</span>
-      <p style="margin-top:14px">Hubungkan dompet Anda ke jaringan BNB Smart Chain Mainnet (Chain ID 56) untuk berpartisipasi langsung dalam presale.</p>
-    </div>
+    <div class="container">
+        <h1>VOIN Presale</h1>
+        <p>Bergabunglah dengan presale token VOIN di BNB Smart Chain.</p>
 
-    <section class="section">
-      <div class="card">
-        <div class="title-row">
-          <h2 style="margin:0">Batch 1</h2>
-          <span class="badge">Harga $0,05 / VOIN</span>
+        <div class="info-box">
+            <p><strong>Jaringan:</strong> BNB Smart Chain (Chain ID: 56)</p>
+            <p><strong>Harga Batch 1:</strong> 0.001 BNB / VOIN</p>
+            <p><strong>Status Dompet:</strong> <span id="walletAddress">Belum Terhubung</span></p>
         </div>
-        <div class="grid two" style="margin-top:20px">
-          <div>
-            <p>Kapasitas dasar terencana</p>
-            <div class="stat">7,8 juta VOIN</div>
-          </div>
-          <div>
-            <p>Batas bonus marketing terpisah</p>
-            <div class="stat">7,8 juta VOIN</div>
-          </div>
+
+        <!-- Tombol dan Status Koneksi -->
+        <div class="wallet-wrapper">
+            <button id="connectBtn" onclick="connectWallet()">Connect Wallet</button>
+            <div id="status">Status: Silakan hubungkan dompet MetaMask Anda</div>
         </div>
-        <p class="small" style="margin-top:14px">Pastikan Anda memiliki saldo BNB yang cukup di dompet untuk pembayaran dan biaya gas transaksi on-chain.</p>
-      </div>
-    </section>
-
-    <section class="section form-grid">
-      <div class="card">
-        <h2>Jaringan &amp; Jumlah</h2>
-        <label class="field" for="network">Jaringan pembayaran
-          <select id="network">
-            <option value="56">BNB Smart Chain (Mainnet - Chain 56)</option>
-          </select>
-        </label>
-        <label class="field" for="asset">Aset pembayaran
-          <select id="asset">
-            <option value="BNB">BNB (Native Coin)</option>
-          </select>
-        </label>
-        <label class="field" for="batch">Batch aktif
-          <select id="batch">
-            <option value="1">Batch 1 — $0,05</option>
-          </select>
-        </label>
-        <label class="field" for="amount">Nilai Pembelian (dalam BNB)<input id="amount" type="number" min="0" step="0.01" placeholder="Contoh: 0.1" inputmode="decimal"></label>
-        <p class="small">Masukkan nominal BNB yang akan dikirim ke smart contract presale utama.</p>
-      </div>
-
-      <div class="card review">
-        <h2>Tinjau Transaksi Mainnet</h2>
-        <dl>
-          <div class="row"><dt>Harga per VOIN</dt><dd id="unit-price">$0,05</dd></div>
-          <div class="row"><dt>Nilai BNB</dt><dd id="purchase">Belum diisi</dd></div>
-          <div class="row"><dt>Estimasi VOIN</dt><dd id="total">0 VOIN</dd></div>
-        </dl>
-        <p id="calc-note" class="note" aria-live="polite">Hubungkan dompet dan masukkan nominal untuk melanjutkan transaksi real.</p>
-        <button class="button" type="button" id="btnBuyReal">Beli VOIN Sekarang</button>
-        <p class="small" style="margin-top:12px">Transaksi bersifat permanen di jaringan utama. Periksa kembali rincian di dompet Anda sebelum mengonfirmasi.</p>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="shell">
-      <p>Jangan bagikan seed phrase atau private key Anda kepada siapa pun.</p>
-      <p>© 2026 VOIN Technology Payments. Seluruh hak dilindungi.</p>
-      <p>Mainnet aktif · <a href="whitepaper.html">Whitepaper</a></p>
     </div>
-  </footer>
 
-  <script src="presale.js" defer></script>
+    <!-- Script Koneksi Wallet -->
+    <script>
+        async function connectWallet() {
+            const statusDiv = document.getElementById("status");
+            const addressSpan = document.getElementById("walletAddress");
+
+            // Cek apakah MetaMask terinstal atau dibuka di browser MetaMask
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    statusDiv.innerText = "Status: Menghubungkan ke MetaMask...";
+                    
+                    // Minta izin akun
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    const account = accounts[0];
+
+                    // Cek Chain ID (harus 56 / 0x38 untuk BSC)
+                    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+                    if (chainId !== '0x38') {
+                        try {
+                            // Coba pindah jaringan otomatis ke BSC
+                            await window.ethereum.request({
+                                method: 'wallet_switchEthereumChain',
+                                params: [{ chainId: '0x38' }],
+                            });
+                        } catch (switchError) {
+                            statusDiv.innerText = "Status: Harap pindah manual ke jaringan BNB Smart Chain di MetaMask.";
+                            return;
+                        }
+                    }
+
+                    // Tampilkan alamat dompet yang terhubung (disingkat)
+                    const shortenedAddress = account.substring(0, 6) + "..." + account.substring(account.length - 4);
+                    addressSpan.innerText = shortenedAddress;
+                    statusDiv.innerText = "Status: Berhasil terhubung ke MetaMask!";
+                    document.getElementById("connectBtn").innerText = "Connected";
+
+                } catch (error) {
+                    console.error(error);
+                    statusDiv.innerText = "Status: Koneksi dibatalkan oleh pengguna.";
+                }
+            } else {
+                // Fitur Deep Link jika dibuka di Chrome/Browser biasa
+                statusDiv.innerText = "Status: Membuka aplikasi MetaMask...";
+                const dappUrl = window.location.href.replace(/^https?:\/\//, '');
+                window.location.href = `https://metamask.app.link/dapp/${dappUrl}`;
+            }
+        }
+    </script>
 </body>
 </html>
