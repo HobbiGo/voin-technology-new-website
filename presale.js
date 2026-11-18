@@ -3,7 +3,7 @@
 // ==========================================
 
 const MAINNET_CHAIN_ID = 56; // BNB Smart Chain Mainnet
-const CONTRACT_ADDRESS = "0x... (MASUKKAN ALAMAT KONTRAK MAINNET ANDA DI SINI)";
+const CONTRACT_ADDRESS = "0xAEb22359588A50e6F746004E66418Eb2c978dAA2";
 
 const CONTRACT_ABI = [
   "function buyTokens() payable",
